@@ -35,16 +35,25 @@ class Car {
 
     this.isStarted = true;
     console.log(this.name + " is started");
-    this.#gasUsage+=10;
+    this.#gasUsage++;
     this.gasUsageIntervalId = setInterval(() => {
       this.currentGas -= this.#gasUsage;
       console.log(`${this.name} has ${this.currentGas}l gas left`);
       if (this.currentGas <= 0) {
+        this.isStarted = false;
         clearInterval(this.gasUsageIntervalId);
         console.log(`${this.name} is turned off, because it ran out of fuel`);
         return;
       }
     }, 3_000);
+  }
+
+  refueling() {
+    if (this.currentGas < this.gasSize) {
+      this.currentGas = this.gasSize;
+      console.log(`fuel was poured into the ${this.name}`);
+      return;
+    }
   }
 
   stop() {
@@ -56,9 +65,8 @@ class Car {
     this.isStarted = false;
     console.log(`${this.name} is turned off`);
   }
-  
+
   move() {
-    
     if (!this.isStarted) {
       console.log(
         `${this.name} is not started yet, please start the car first`
@@ -118,6 +126,7 @@ class Car {
     this.lighted = false;
     console.log(`the lights turned off of ${this.name} `);
   }
+
 }
 
 let bmw = new Car("My BMW", "X5", "black", 243, "BMW", 82);
@@ -135,10 +144,9 @@ bmw.move();
 bmw.move();
 bmw.move();
 bmw.move();
-// bmw.stopMoving();
-// bmw.stop();
 bmw.turnOntheLight();
 bmw.turnOntheLight();
 
+mers.refueling()
 bmw.turnOfftheLight();
 bmw.turnOfftheLight();
